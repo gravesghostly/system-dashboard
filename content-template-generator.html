@@ -5,266 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RARE BEINGS :: Content Template Generator</title>
     <style>
-        /* Previous styles remain the same */
-        .credit-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        .credit-row input {
-            flex: 1;
-        }
-    </style>
-</head>
-<body>
-    <div class="scanline"></div>
-    
-    <div class="container">
-        <header>
-            <h1>RARE BEINGS :: CONTENT TEMPLATE GENERATOR</h1>
-            <div class="subtitle">CONTENT CREATION TOOLKIT</div>
-        </header>
-        
-        <div class="dashboard-grid">
-            <div class="sidebar">
-                <div class="system-status">
-                    <h3>Generator Status</h3>
-                    <div class="status-item">
-                        <span class="status-indicator status-green"></span>
-                        <span>Content Tools: Online</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-indicator status-green"></span>
-                        <span>Template Generator: Ready</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="main-content">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Content Details</h2>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Post Title</label>
-                            <input type="text" id="postTitle" placeholder="Enter Title">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Post Type</label>
-                            <select id="postType" onchange="togglePostTypeSpecifics()">
-                                <option value="Event">Event</option>
-                                <option value="Sponsor">Sponsor</option>
-                                <option value="Build & Byte">Build & Byte</option>
-                                <option value="Rare Bites">Rare Bites</option>
-                                <option value="General">General</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div id="eventSpecifics" style="display:none;">
-                        <div class="form-group">
-                            <label>Event Theme</label>
-                            <input type="text" id="eventTheme" placeholder="Event Theme (Optional)">
-                        </div>
-                    </div>
-                    
-                    <div id="sponsorSpecifics" style="display:none;">
-                        <div class="form-group">
-                            <label>At Ongoing Event?</label>
-                            <select id="isEventSponsor" onchange="toggleEventSponsorDetails()">
-                                <option value="no">No</option>
-                                <option value="yes">Yes</option>
-                            </select>
-                        </div>
-                        
-                        <div id="eventSponsorDetails" style="display:none;">
-                            <div class="form-group">
-                                <label>Event Name</label>
-                                <input type="text" id="sponsorEventName" placeholder="Event Name">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Event SLURL</label>
-                                <input type="text" id="sponsorEventSLURL" placeholder="http://maps.secondlife.com/secondlife/Region/X/Y/Z">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <label>Caption Content</label>
-                    <textarea id="postCaption" placeholder="Write your main content here..."></textarea>
-                    
-                    <div class="card-header">
-                        <h2>Credits</h2>
-                    </div>
-                    
-                    <div id="creditsContainer">
-                        <div id="creditInputs">
-                            <!-- Credit inputs will be dynamically added here -->
-                        </div>
-                        <button onclick="addCreditInput()">Add Credit</button>
-                    </div>
-                    
-                    <div class="card-header">
-                        <h2>Community Engagement</h2>
-                    </div>
-                    
-                    <label>Community Question</label>
-                    <input type="text" id="communityQuestion" placeholder="Ask your audience something...">
-                    
-                    <div class="card-header">
-                        <h2>Platform Versions</h2>
-                    </div>
-                    
-                    <label>Bluesky Caption (300 char)</label>
-                    <textarea id="blueskyCaption" placeholder="Short version for Bluesky"></textarea>
-                    
-                    <label>Discord Template</label>
-                    <textarea id="discordTemplate" readonly placeholder="Discord template will appear here"></textarea>
-                    
-                    <div class="card-header">
-                        <h2>Tags</h2>
-                    </div>
-                    
-                    <input type="text" id="tagInput" placeholder="Add tags...">
-                    
-                    <button onclick="generateTemplate()">Generate Template</button>
-                    
-                    <textarea id="outputTemplate" readonly placeholder="Generated template will appear here..."></textarea>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let creditIndex = 0;
-
-        function togglePostTypeSpecifics() {
-            const postType = document.getElementById('postType').value;
-            const eventSpecifics = document.getElementById('eventSpecifics');
-            const sponsorSpecifics = document.getElementById('sponsorSpecifics');
-            
-            eventSpecifics.style.display = postType === 'Event' ? 'block' : 'none';
-            sponsorSpecifics.style.display = postType === 'Sponsor' ? 'block' : 'none';
-        }
-
-        function toggleEventSponsorDetails() {
-            const isEventSponsor = document.getElementById('isEventSponsor').value;
-            const eventSponsorDetails = document.getElementById('eventSponsorDetails');
-            
-            eventSponsorDetails.style.display = isEventSponsor === 'yes' ? 'block' : 'none';
-        }
-
-        function addCreditInput() {
-            const container = document.getElementById('creditInputs');
-            const newRow = document.createElement('div');
-            newRow.className = 'credit-row';
-            newRow.innerHTML = `
-                <select>
-                    <option value="event">Event Credit</option>
-                    <option value="sponsor">Sponsor</option>
-                    <option value="credit">General Credit</option>
-                </select>
-                <input type="text" placeholder="Creator Name">
-                <input type="text" placeholder="Item Name">
-                <button onclick="this.parentElement.remove()">Remove</button>
-            `;
-            container.appendChild(newRow);
-        }
-
-        function generateTemplate() {
-            const postTitle = document.getElementById('postTitle').value;
-            const postType = document.getElementById('postType').value;
-            const postCaption = document.getElementById('postCaption').value;
-            const communityQuestion = document.getElementById('communityQuestion').value;
-            const blueskyCaption = document.getElementById('blueskyCaption').value;
-            
-            // Collect credits
-            const creditInputs = document.querySelectorAll('#creditInputs .credit-row');
-            const credits = Array.from(creditInputs).map(row => {
-                const type = row.querySelector('select').value;
-                const creatorName = row.querySelectorAll('input')[0].value;
-                const itemName = row.querySelectorAll('input')[1].value;
-                return { type, creatorName, itemName };
-            }).sort((a, b) => a.creatorName.localeCompare(b.creatorName));
-
-            // Generate featured items section
-            let featuredItemsSection = '';
-            if (postType === 'Event') {
-                featuredItemsSection = 'Featured Items:\n' + 
-                    credits.map(credit => `| ${credit.creatorName} - ${credit.itemName}`).join('\n');
-            } else if (postType === 'Sponsor') {
-                featuredItemsSection = 'Featured Item:\n' + 
-                    credits.map(credit => `| ${credit.itemName}`).join('\n');
-            }
-
-            // Discord template
-            let discordTemplate = '';
-            if (postType === 'Event') {
-                discordTemplate = `🎉 ${postTitle} 🎉
-
-${postCaption}
-
-${featuredItemsSection}
-
-Social Links:
-| Blog: https://gravesghostly.blog
-| Bluesky: https://bsky.app/profile/gravesghostly.blog
-| Flickr: https://flickr.com/photos/cryptwalker/
-| Youtube: https://youtube.com/@gravesghostly
-`;
-            } else if (postType === 'Sponsor') {
-                discordTemplate = `🚀 ${postTitle} 🚀
-
-${postCaption}
-
-${featuredItemsSection}
-
-Social Links:
-| Blog: https://gravesghostly.blog
-| Bluesky: https://bsky.app/profile/gravesghostly.blog
-| Flickr: https://flickr.com/photos/cryptwalker/
-| Youtube: https://youtube.com/@gravesghostly
-`;
-            }
-
-            // Update Discord template textarea
-            document.getElementById('discordTemplate').value = discordTemplate;
-
-            // Main template
-            let template = `[${postType.toUpperCase()}] ${postTitle}
-
-${postCaption}
-
-${featuredItemsSection}
-
-Community Question:
-${communityQuestion}
-
-Bluesky Caption:
-${blueskyCaption}
-
-#SecondLife #${postType.replace(' ', '')}`;
-
-            document.getElementById('outputTemplate').value = template;
-        }
-
-        // Initialize
-        togglePostTypeSpecifics();
-        toggleEventSponsorDetails();
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RARE BEINGS :: Content Template Generator</title>
-    <style>
-        /* Inherit the entire style from the system dashboard */
+        /* Color palette and CSS from the system dashboard */
         :root {
             --dark-space: #0a0a0a;
             --respawn-blue: #2a3b78;
@@ -290,9 +31,7 @@ ${blueskyCaption}
             --input-bg: rgba(20, 20, 20, 0.7);
             --input-border: #555555;
         }
-        
-        /* Rest of the dashboard's original CSS would be included here */
-        * {
+* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -332,6 +71,56 @@ ${blueskyCaption}
             0% { transform: translateY(-100%); }
             100% { transform: translateY(100%); }
         }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+        }
+        
+        .sidebar, .main-content {
+            background-color: var(--card-bg);
+            padding: 20px;
+        }
+        
+        textarea, input, select {
+            width: 100%;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        
+        .card-header {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+        }
+        
+        h1, h2 {
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .credit-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .credit-row input {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
@@ -339,7 +128,7 @@ ${blueskyCaption}
     
     <div class="container">
         <header>
-            <h1>RARE BEINGS :: CONTENT TEMPLATE GENERATOR</h1>
+            <h1>RARE BEINGS :: Content Template Generator</h1>
             <div class="subtitle">CONTENT CREATION TOOLKIT</div>
         </header>
         
@@ -350,10 +139,6 @@ ${blueskyCaption}
                     <div class="status-item">
                         <span class="status-indicator status-green"></span>
                         <span>Content Tools: Online</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-indicator status-green"></span>
-                        <span>Template Generator: Ready</span>
                     </div>
                 </div>
             </div>

@@ -5,7 +5,223 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RARE BEINGS :: SYSTEM DASHBOARD</title>
     <style>
-        /* All previous CSS remains the same */
+        /* Color palette and CSS from the original system dashboard */
+        :root {
+            --dark-space: #0a0a0a;
+            --respawn-blue: #2a3b78;
+            --messenger-purple: #5d70b6;
+            --ascension-green: #c1f79e;
+            --tormentor-red: #ff6b6b;
+            --descent-orange: #ff9e58;
+            --pandem-yellow: #f7e06c;
+            --helia-blue: #a8d8ff;
+            
+            /* UI elements */
+            --bg-color: var(--dark-space);
+            --card-bg: rgba(25, 25, 25, 0.7);
+            --card-secondary: rgba(42, 59, 120, 0.3);
+            --text-color: #f9f5f0;
+            --text-muted: #bbbbbb;
+            --primary-color: var(--messenger-purple);
+            --secondary-color: var(--helia-blue);
+            --accent-color: var(--ascension-green);
+            --warning-color: var(--pandem-yellow);
+            --danger-color: var(--tormentor-red);
+            --border-color: #444444;
+            --input-bg: rgba(20, 20, 20, 0.7);
+            --input-border: #555555;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%23121212"/><circle cx="20" cy="20" r="1" fill="%23ffffff" opacity="0.5"/><circle cx="60" cy="40" r="1" fill="%23ffffff" opacity="0.3"/><circle cx="100" cy="70" r="1" fill="%23ffffff" opacity="0.6"/><circle cx="140" cy="30" r="1" fill="%23ffffff" opacity="0.4"/><circle cx="180" cy="60" r="1" fill="%23ffffff" opacity="0.5"/><circle cx="40" cy="100" r="1" fill="%23ffffff" opacity="0.4"/><circle cx="80" cy="130" r="1" fill="%23ffffff" opacity="0.6"/><circle cx="120" cy="160" r="1" fill="%23ffffff" opacity="0.3"/><circle cx="160" cy="190" r="1" fill="%23ffffff" opacity="0.5"/><circle cx="10" cy="170" r="1" fill="%23ffffff" opacity="0.4"/><circle cx="50" cy="190" r="1" fill="%23ffffff" opacity="0.6"/><circle cx="90" cy="20" r="1" fill="%23ffffff" opacity="0.3"/><circle cx="130" cy="50" r="1" fill="%23ffffff" opacity="0.5"/><circle cx="170" cy="80" r="1" fill="%23ffffff" opacity="0.4"/><circle cx="30" cy="110" r="1" fill="%23ffffff" opacity="0.6"/><circle cx="70" cy="140" r="1" fill="%23ffffff" opacity="0.3"/><circle cx="110" cy="170" r="1" fill="%23ffffff" opacity="0.5"/><circle cx="150" cy="10" r="1" fill="%23ffffff" opacity="0.4"/><circle cx="190" cy="40" r="1" fill="%23ffffff" opacity="0.6"/></svg>');
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0"/></filter><rect width="200" height="200" filter="url(%23noise)" opacity="0.3"/></svg>');
+            opacity: 0.1;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            position: relative;
+            text-align: center;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Cyberpunk', 'Segoe UI', sans-serif;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin: 0;
+            text-shadow: 
+                0 0 5px rgba(93, 112, 182, 0.7),
+                0 0 10px rgba(93, 112, 182, 0.5);
+            padding-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px rgba(168, 216, 255, 0.5);
+        }
+        
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-top: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            position: relative;
+        }
+        
+        .sidebar {
+            background-color: var(--card-bg);
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            height: calc(100vh - 140px);
+            position: sticky;
+            top: 20px;
+            overflow-y: auto;
+            backdrop-filter: blur(5px);
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(5px);
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .quick-access {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .quick-button {
+            background-color: var(--card-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 10px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .quick-button:hover {
+            background-color: var(--primary-color);
+            color: #000;
+        }
+        
+        .quick-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .quick-label {
+            font-size: 0.8rem;
+        }
+        
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(93, 112, 182, 0.03), transparent);
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+            z-index: 9;
+            opacity: 0.3;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
     </style>
 </head>
 <body>
@@ -51,14 +267,9 @@
                         <li class="nav-link"><a href="platform-image-resizer.html">Platform Image Resizer</a></li>
                     </ul>
                 </div>
-                
-                <!-- Rest of the sidebar remains the same -->
             </div>
             
             <div class="main-content">
-                <!-- Existing cards -->
-                
-                <!-- New Content Creation Templates Card -->
                 <div class="card">
                     <div class="card-header">
                         <h2>Content Creation Templates</h2>
@@ -83,21 +294,18 @@
                     </div>
                 </div>
                 
-                <!-- Rest of the existing main content cards -->
                 <div class="card">
                     <div class="card-header">
                         <h2>Belief System News</h2>
                     </div>
-                    <!-- Existing news items -->
+                    <div class="news-item">
+                        <div class="news-title">Middlemen Activity Detected Near Pandemos Helix</div>
+                        <div class="news-date">Eternal Cycle 347, Day 23</div>
+                        <div class="news-content">Harbingers report increased Middlemen activity near the Pandemos Helix entrance points. Sprites are advised to travel with verified moderator escorts and be vigilant for encryption attempts.</div>
+                    </div>
                 </div>
-                
-                <!-- Other existing cards remain the same -->
             </div>
         </div>
     </div>
-    
-    <script>
-        // Existing dashboard scripts remain the same
-    </script>
 </body>
 </html>
